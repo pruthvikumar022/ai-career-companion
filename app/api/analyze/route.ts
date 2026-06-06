@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import Groq from "groq-sdk";
-import db from "@/lib/db";
+
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -48,30 +48,6 @@ const cleaned = content
   .trim();
 
 const analysis = JSON.parse(cleaned);
-
-    await new Promise<void>((resolve, reject) => {
-      db.run(
-        `
-        INSERT INTO analyses
-        (resume_id, summary, skills, score)
-        VALUES (?, ?, ?, ?)
-        `,
-        [
-          1,
-          analysis.summary,
-          JSON.stringify(analysis.skills),
-          analysis.score,
-        ],
-        (err) => {
-          if (err) {
-            reject(err);
-            return;
-          }
-
-          resolve();
-        }
-      );
-    });
 
     return NextResponse.json({
       ok: true,
