@@ -43,7 +43,7 @@ export default function UploadPage() {
     }
   };
 
-  const handleFile = async (file: File) => {
+const handleFile = async (file: File) => {
   if (file.type !== 'application/pdf') {
     setState('error');
     return;
@@ -71,11 +71,6 @@ export default function UploadPage() {
 
     setProgress(50);
 
-    localStorage.setItem(
-      'resumeText',
-      String(uploadData.text ?? '')
-    );
-
     // Analyze Resume
     const analyzeResponse = await fetch('/api/analyze', {
       method: 'POST',
@@ -97,11 +92,17 @@ export default function UploadPage() {
 
     console.log('Analysis Success:', analyzeData);
 
+    // Save analysis locally
+    localStorage.setItem(
+      'analysis',
+      JSON.stringify(analyzeData.analysis)
+    );
+
     setProgress(100);
     setState('success');
 
     setTimeout(() => {
-      window.location.href = '/dashboard';
+      window.location.href = '/dashboard';  
     }, 1500);
 
   } catch (error) {
@@ -110,7 +111,6 @@ export default function UploadPage() {
     setProgress(0);
   }
 };
-
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
