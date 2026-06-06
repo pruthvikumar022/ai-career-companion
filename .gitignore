@@ -8,8 +8,22 @@ __v0_jsx-dev-runtime.ts
 
 # Environment variables
 .env*.local
+.env.local
 
-# Common ignores
-node_modules
+# Dependencies
+node_modules/
+
+# Next.js
 .next/
+out/
+
+# Database
+career.db
+*.db
+
+# Build files
+tsconfig.tsbuildinfo
+
+# OS files
 .DS_Store
+Thumbs.db
